@@ -3,7 +3,7 @@ const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
 const getCurrentWeather = async (zipcode) => {
   try {
     const response = await fetch(
-      `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${zipcode}`
+      `https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${zipcode}`
     );
 
     if (!response.ok) {
@@ -21,7 +21,7 @@ const getCurrentWeather = async (zipcode) => {
 const getForecast = async (zipcode) => {
   try {
     const response = await fetch(
-      `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${zipcode}&days=3`
+      `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${zipcode}&days=3`
     );
 
     if (!response.ok) {
