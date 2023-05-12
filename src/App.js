@@ -35,8 +35,9 @@ const App = () => {
   return (
     <div className="app-container">
       <AdUnit></AdUnit>
+      <div className="title">Simple Weather</div>
       <SearchForm onSearch={handleSearch} />
-      <WeatherCard weatherData={weatherData?.current} />
+      {weatherData && <WeatherCard weatherData={weatherData} />}
       <ForecastList forecasts={forecastData?.forecast.forecastday || []} />
     </div>
   );

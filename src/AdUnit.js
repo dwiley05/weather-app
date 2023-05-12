@@ -1,5 +1,6 @@
 // src/AdUnit.js
 import React from "react";
+import "./AdUnit.css";
 
 const AdUnit = () => {
   const aAdsCode = {
@@ -8,7 +9,7 @@ const AdUnit = () => {
     `,
   };
 
-  return <div dangerouslySetInnerHTML={aAdsCode} />;
+  return <div className="ad-container" dangerouslySetInnerHTML={aAdsCode} />;
 };
 
 export default AdUnit;

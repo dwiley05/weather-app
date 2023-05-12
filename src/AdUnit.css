@@ -1,0 +1,14 @@
+/* src/AdUnit.css */
+.ad-container {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    text-align: center;
+  }
+  
+  @media (max-width: 768px) {
+    .ad-container {
+      /* Add any styles specific to mobile devices here */
+    }
+  }
+  
