@@ -3,6 +3,7 @@ import { getCurrentWeather, getForecast } from "./services/weatherService";
 import WeatherCard from "./components/WeatherCard";
 import ForecastList from "./components/ForecastList";
 import SearchForm from "./components/SearchForm";
+import AdUnit from "./AdUnit";
 
 const App = () => {
   const [weatherData, setWeatherData] = useState(null);
@@ -33,6 +34,7 @@ const App = () => {
 
   return (
     <div className="app-container">
+      <AdUnit></AdUnit>
       <SearchForm onSearch={handleSearch} />
       <WeatherCard weatherData={weatherData?.current} />
       <ForecastList forecasts={forecastData?.forecast.forecastday || []} />
