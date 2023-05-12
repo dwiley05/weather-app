@@ -1,4 +1,4 @@
-const apiKey = process.env.weather_api;
+const apiKey = process.env.REACT_APP_WEATHER_API_KEY;
 
 const getCurrentWeather = async (zipcode) => {
   try {
