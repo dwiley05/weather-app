@@ -20,6 +20,10 @@ const App = () => {
         setWeatherData(weather);
 
         const forecast = await getForecast(zipCode);
+
+        // remove todays date from forecast
+        forecast.forecast.forecastday.shift();
+
         setForecastData(forecast);
       } catch (error) {
         console.error("Error fetching weather and forecast data:", error);

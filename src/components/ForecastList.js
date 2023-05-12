@@ -1,6 +1,6 @@
-import React from 'react';
-import ForecastCard from './ForecastCard';
-import './ForecastList.css';
+import React from "react";
+import ForecastCard from "./ForecastCard";
+import "./ForecastList.css";
 
 const ForecastList = ({ forecasts }) => {
   return (
@@ -12,6 +12,7 @@ const ForecastList = ({ forecasts }) => {
           condition={forecast.day.condition}
           maxTemp={forecast.day.maxtemp_c}
           minTemp={forecast.day.mintemp_c}
+          wind={forecast.day.maxwind_kph}
         />
       ))}
     </div>

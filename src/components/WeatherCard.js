@@ -6,15 +6,20 @@ const WeatherCard = ({ weatherData }) => {
     return <div>Search by Zipcode</div>;
   }
 
-  const { temp_c, humidity, condition } = weatherData.current;
+  const { temp_c, humidity, condition, wind_kph } = weatherData.current;
   const { name, region } = weatherData.location;
 
   const convertTofahrenheit = (temp) => {
     return (temp * 9) / 5 + 32;
   };
 
+  const convertToMph = (wind) => {
+    return wind / 1.609;
+  };
+
   return (
     <div className="card">
+      <h2>Today</h2>
       <h3 className="weather-info">
         <h1 className="city">
           {name}, {region}
@@ -23,6 +28,9 @@ const WeatherCard = ({ weatherData }) => {
       </h3>
       <h3 className="weather-info">Humidity: {humidity}%</h3>
       <h3 className="weather-info">Weather: {condition.text}</h3>
+      <h3 className="weather-info">
+        Max Wind Speed: {convertToMph(wind_kph).toFixed(0)} MPH
+      </h3>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-const apiKey = '4cf4e22274f24acdbb733624231205';
+const apiKey = "4cf4e22274f24acdbb733624231205";
 
 const getCurrentWeather = async (zipcode) => {
   try {
@@ -21,7 +21,7 @@ const getCurrentWeather = async (zipcode) => {
 const getForecast = async (zipcode) => {
   try {
     const response = await fetch(
-      `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${zipcode}&days=3`
+      `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${zipcode}&days=7`
     );
 
     if (!response.ok) {

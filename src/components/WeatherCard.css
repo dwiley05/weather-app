@@ -8,6 +8,7 @@
   max-width: 25em;
   margin-left: auto;
   margin-right: auto;
+  margin-top: 1em;
 }
 
 /* Add media query for smaller screens */
