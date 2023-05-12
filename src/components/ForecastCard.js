@@ -13,7 +13,7 @@ const ForecastCard = ({ date, condition, maxTemp, minTemp }) => {
       <img src={condition.icon} alt={condition.text} />
       <p>{condition.text}</p>
       <p>
-        High: {convertTofahrenheit(maxTemp)}°F | Low: {convertTofahrenheit(minTemp)}°F
+        High: {convertTofahrenheit(maxTemp).toFixed(0)}°F | Low: {convertTofahrenheit(minTemp).toFixed()}°F
       </p>
     </div>
   );
