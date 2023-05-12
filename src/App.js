@@ -4,6 +4,7 @@ import WeatherCard from "./components/WeatherCard";
 import ForecastList from "./components/ForecastList";
 import SearchForm from "./components/SearchForm";
 import AdUnit from "./AdUnit";
+import { Helmet } from 'react-helmet';
 
 const App = () => {
   const [weatherData, setWeatherData] = useState(null);
@@ -35,6 +36,9 @@ const App = () => {
   return (
     <div className="app-container">
       <AdUnit></AdUnit>
+      <Helmet>
+        <title>Simple Weather - Check Weather by ZIP Code</title>
+      </Helmet>
       <div className="title">Simple Weather</div>
       <SearchForm onSearch={handleSearch} />
       {weatherData && <WeatherCard weatherData={weatherData} />}
