@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useLocation, Link } from "react-router-dom";
 import { Card, Descriptions, Typography, Button, Row, Col } from "antd";
 import { getForecast } from "../services/weatherService";
+import TemperatureChart from "./TemperatureChart";
 
 const { Title } = Typography;
 
@@ -9,13 +10,20 @@ const WeatherDetails = () => {
   const { date } = useParams();
   const routeLocation = useLocation();
   const [weatherData, setWeatherData] = useState(null);
-
-  const convertToFahrenheit = (tempC) => {
-    return (tempC * 9) / 5 + 32;
-  };
-
-  const convertToMph = (windKph) => {
-    return windKph / 1.609;
+  
+  const convertToDayOfWeek = (date) => {
+    const days = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+  
+    const dayOfWeek = new Date(date).getDay();
+    return days[(dayOfWeek + 1) % 7];
   };
 
   useEffect(() => {
@@ -42,50 +50,69 @@ const WeatherDetails = () => {
     return <div>Loading...</div>;
   }
 
+
   return (
     <div style={{ marginTop: "2rem" }}>
-    <Row justify="center">
-      <Col xs={24} sm={22} md={20} lg={18} xl={16}>
-        <Card title={`Weather Details for ${date}`}>
-          <Title level={3}>{weatherData.day.condition.text}</Title>
-          <img
-            src={weatherData.day.condition.icon}
-            alt={weatherData.day.condition.text}
-          />
-          <div className="mt-3">
-            <Descriptions column={2} bordered>
-              <Descriptions.Item label="Max Temperature">
-                {convertToFahrenheit(weatherData.day.maxtemp_c).toFixed(1)}°F
-              </Descriptions.Item>
-              <Descriptions.Item label="Min Temperature">
-                {convertToFahrenheit(weatherData.day.mintemp_c).toFixed(1)}°F
-              </Descriptions.Item>
-              <Descriptions.Item label="Avg Temperature">
-                {convertToFahrenheit(weatherData.day.avgtemp_c).toFixed(1)}°F
-              </Descriptions.Item>
-              <Descriptions.Item label="Wind Speed">
-                {convertToMph(weatherData.day.maxwind_kph).toFixed(1)} MPH
-              </Descriptions.Item>
-              <Descriptions.Item label="Humidity">
-                {weatherData.day.avghumidity}%
-              </Descriptions.Item>
-              <Descriptions.Item label="Sunrise">
-                {weatherData.astro.sunrise}
-              </Descriptions.Item>
-              <Descriptions.Item label="Sunset">
-                {weatherData.astro.sunset}
-              </Descriptions.Item>
-            </Descriptions>
-          </div>
-          <div className="mt-4">
-            <Link to={`/`}>
-              <Button type="primary">Back</Button>
-            </Link>
-          </div>
-        </Card>
-      </Col>
-    </Row>
-  </div>
+      <Row justify="center">
+        <Col xs={24} sm={22} md={20} lg={18} xl={16}>
+          <Card title={`Weather Details for ${convertToDayOfWeek(date)}  ${date}`}>
+            <Title level={3}>{weatherData.day.condition.text}</Title>
+            <img
+              src={weatherData.day.condition.icon}
+              alt={weatherData.day.condition.text}
+            />
+            <div className="mt-3">
+              <Descriptions column={{ xs: 1, sm: 2 }} bordered>
+                <Descriptions.Item label="Max Temperature">
+                  {weatherData.day.maxtemp_c}°C / {weatherData.day.maxtemp_f}°F
+                </Descriptions.Item>
+                <Descriptions.Item label="Min Temperature">
+                  {weatherData.day.mintemp_c}°C / {weatherData.day.mintemp_f}°F
+                </Descriptions.Item>
+                <Descriptions.Item label="Avg Temperature">
+                  {weatherData.day.avgtemp_c}°C / {weatherData.day.avgtemp_f}°F
+                </Descriptions.Item>
+                <Descriptions.Item label="Wind Speed">
+                  {weatherData.day.maxwind_kph} kph /{" "}
+                  {weatherData.day.maxwind_mph} mph
+                </Descriptions.Item>
+                <Descriptions.Item label="Humidity">
+                  {weatherData.day.avghumidity}%
+                </Descriptions.Item>
+                <Descriptions.Item label="Precipitation">
+                  {weatherData.day.totalprecip_mm} mm /{" "}
+                  {weatherData.day.totalprecip_in} in
+                </Descriptions.Item>
+                <Descriptions.Item label="Visibility">
+                  {weatherData.day.avgvis_km} km /{" "}
+                  {weatherData.day.avgvis_miles} miles
+                </Descriptions.Item>
+                <Descriptions.Item label="Chance of Rain">
+                  {weatherData.day.daily_chance_of_rain}%
+                </Descriptions.Item>
+                <Descriptions.Item label="Chance of Snow">
+                  {weatherData.day.daily_chance_of_snow}%
+                </Descriptions.Item>
+                <Descriptions.Item label="UV Index">
+                  {weatherData.day.uv}
+                </Descriptions.Item>
+              </Descriptions>
+              <div className="mt-4 d-none d-md-block">Temperature</div>
+              <Row justify="center" className="d-none d-md-flex mt-3">
+                <Col xs={24} sm={22} md={20} lg={18} xl={16}>
+                  <TemperatureChart hourData={weatherData.hour} />
+                </Col>
+              </Row>
+            </div>
+            <div className="mt-4">
+              <Link to={`/`}>
+                <Button type="primary">Back</Button>
+              </Link>
+            </div>
+          </Card>
+        </Col>
+      </Row>
+    </div>
   );
 };
 
