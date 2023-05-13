@@ -93,6 +93,7 @@ const ForecastList = ({ zipCode }) => {
             >
               <div className="forecast-card-container">
                 <ForecastCard
+                  zipCode={zipCode}
                   date={forecast.date}
                   condition={forecast.day.condition}
                   maxTemp={forecast.day.maxtemp_c}
