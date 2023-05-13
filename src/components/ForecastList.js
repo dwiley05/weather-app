@@ -7,7 +7,6 @@ import "./ForecastList.css";
 const { Panel } = Collapse;
 
 const convertToDayOfWeek = (date) => {
-  const dayOfWeek = new Date(date).getDay();
   const days = [
     "Sunday",
     "Monday",
@@ -17,7 +16,9 @@ const convertToDayOfWeek = (date) => {
     "Friday",
     "Saturday",
   ];
-  return days[dayOfWeek];
+
+  const dayOfWeek = new Date(date).getDay();
+  return days[(dayOfWeek + 1) % 7];
 };
 
 const convertToF = (temp) => {
@@ -45,6 +46,8 @@ const ForecastList = ({ zipCode }) => {
     setVisibleItems((prevVisibleItems) => prevVisibleItems + 7);
   };
 
+  const today = forecasts[0];
+
   return (
     <div className="forecast-list">
       <Collapse
@@ -52,41 +55,44 @@ const ForecastList = ({ zipCode }) => {
         className="custom-collapse"
         expandIconPosition="right"
       >
-        {forecasts.map((forecast) => (
-          <Panel
-            key={forecast.date_epoch}
-            header={
-              <div className="custom-panel d-flex flex-row align-items-center">
-                <div className="day-date-wrapper">
-                  <p className="m-0">{convertToDayOfWeek(forecast.date)}</p>
-                  <p className="m-0">{forecast.date}</p>
+        {forecasts
+          .filter((forecast, index) => forecast !== today)
+          .map((forecast) => (
+            <Panel
+              key={forecast.date_epoch}
+              header={
+                <div className="custom-panel d-flex flex-row align-items-center">
+                  <div className="day-date-wrapper">
+                    <p className="m-0">{convertToDayOfWeek(forecast.date)}</p>
+                    <p className="font-bold">{forecast.day.condition.text}</p>
+                    <p className="m-0 d-none d-md-flex">{forecast.date}</p>
+                  </div>
+                  <img
+                    className="header-icon ms-5"
+                    src={forecast.day.condition.icon}
+                    alt={forecast.day.condition.text}
+                    style={{ width: "64px" }}
+                  />
+                  <p className="ms-5 d-none d-md-flex">
+                    {forecast.day.condition.text}
+                  </p>
+                  <p className="ms-auto me-5 avg-temp d-none d-md-flex">
+                    {convertToF(forecast.day.avgtemp_c).toFixed()}°F
+                  </p>
                 </div>
-                <img
-                  className="header-icon ms-5"
-                  src={forecast.day.condition.icon}
-                  alt={forecast.day.condition.text}
-                  style={{ width: "64px" }}
-                />
-                <p className="ms-5 d-none d-md-flex">
-                  {forecast.day.condition.text}
-                </p>
-                <p className="ms-auto me-5 avg-temp">
-                  {convertToF(forecast.day.avgtemp_c).toFixed()}°F
-                </p>
-              </div>
-            }
-          >
-            <ForecastCard
-              date={forecast.date}
-              condition={forecast.day.condition}
-              maxTemp={forecast.day.maxtemp_c}
-              minTemp={forecast.day.mintemp_c}
-              wind={forecast.day.maxwind_kph}
-              sunrise={forecast.astro.sunrise}
-              sunset={forecast.astro.sunset}
-            />
-          </Panel>
-        ))}
+              }
+            >
+              <ForecastCard
+                date={forecast.date}
+                condition={forecast.day.condition}
+                maxTemp={forecast.day.maxtemp_c}
+                minTemp={forecast.day.mintemp_c}
+                wind={forecast.day.maxwind_kph}
+                sunrise={forecast.astro.sunrise}
+                sunset={forecast.astro.sunset}
+              />
+            </Panel>
+          ))}
       </Collapse>
       {forecasts.length && (
         <div className="load-more">

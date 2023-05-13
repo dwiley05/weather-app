@@ -33,7 +33,7 @@ p {
 
 @media screen and (max-width: 768px) {
   .day-date-wrapper {
-    width: 80px;
+    width: 50px;
   }
 
   .header-icon {
@@ -53,4 +53,8 @@ p {
     margin-top: 0.5rem;
     margin-left: 0;
   }
+}
+
+.font-bold{
+  font-weight: 600;
 }
