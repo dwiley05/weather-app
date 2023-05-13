@@ -18,10 +18,10 @@ const getCurrentWeather = async (zipcode) => {
   }
 };
 
-const getForecast = async (zipcode) => {
+const getForecast = async (zipcode, days) => {
   try {
     const response = await fetch(
-      `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${zipcode}&days=7`
+      `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${zipcode}&days=${days}`
     );
 
     if (!response.ok) {
@@ -29,11 +29,12 @@ const getForecast = async (zipcode) => {
     }
 
     const data = await response.json();
-    return data;
+    return data.forecast.forecastday; // Return the forecast data directly
   } catch (error) {
     console.error(error);
     throw error;
   }
 };
+
 
 export { getCurrentWeather, getForecast };

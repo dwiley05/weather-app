@@ -58,3 +58,34 @@
   width: 64px;
   height: 64px;
 }
+
+.weather-card-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.weather-card {
+  width: 400px;
+}
+
+.card-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.weather-icon {
+  width: 64px;
+}
+
+.ant-collapse-header {
+  background-color: #f0f0f0; /* Set your desired background color */
+  color: #333; /* Set your desired text color */
+}
+
+/* Customize the Collapse panel header icon */
+.ant-collapse-header .ant-collapse-arrow {
+  color: #333; /* Set your desired icon color */
+}
+

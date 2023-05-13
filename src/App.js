@@ -10,6 +10,7 @@ const App = () => {
   const [weatherData, setWeatherData] = useState(null);
   const [forecastData, setForecastData] = useState(null);
   const [zipCode, setZipCode] = useState("");
+  const [page, setPage] = useState(6);
 
   useEffect(() => {
     if (!zipCode) return;
@@ -18,23 +19,22 @@ const App = () => {
       try {
         const weather = await getCurrentWeather(zipCode);
         setWeatherData(weather);
-
-        const forecast = await getForecast(zipCode);
-
-        // remove todays date from forecast
-        forecast.forecast.forecastday.shift();
-
-        setForecastData(forecast);
+    
+        const forecast = await getForecast(zipCode, page);
+        const forecastArray = forecast || []; // Extract the forecast array
+        setForecastData(forecastArray);
       } catch (error) {
         console.error("Error fetching weather and forecast data:", error);
       }
     };
+    
 
     fetchData();
-  }, [zipCode]);
+  }, [zipCode, page]);
 
   const handleSearch = (searchZipCode) => {
     setZipCode(searchZipCode);
+    setPage(1); // Reset the page when a new search is made
   };
 
   return (
@@ -46,7 +46,12 @@ const App = () => {
       <div className="title">Simple Weather</div>
       <SearchForm onSearch={handleSearch} />
       {weatherData && <WeatherCard weatherData={weatherData} />}
-      <ForecastList forecasts={forecastData?.forecast.forecastday || []} />
+      {forecastData && (
+        <ForecastList
+          forecasts={forecastData || []} // Use the correct property for the forecasts
+          zipCode={zipCode}
+        />
+      )}
     </div>
   );
 };
