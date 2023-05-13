@@ -1,8 +1,14 @@
-import React from "react";
-import "antd/dist/reset.css";
-import "./ForecastCard.css";
+import React from 'react';
+import { Card, Button } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
 const ForecastCard = ({ date, condition, maxTemp, minTemp, wind, sunrise, sunset }) => {
+  const navigate = useNavigate();
+
+  const handleDetailsClick = () => {
+    navigate(`/weather-details/${date}`);
+  };
+
   const convertTofahrenheit = (temp) => {
     return (temp * 9) / 5 + 32;
   };
@@ -12,15 +18,17 @@ const ForecastCard = ({ date, condition, maxTemp, minTemp, wind, sunrise, sunset
   };
 
   return (
-    <div>
+    <Card title={date} style={{ width: 300, marginBottom: 16 }}>
       <p>
-        High: {convertTofahrenheit(maxTemp).toFixed(0)}°F | Low:{" "}
-        {convertTofahrenheit(minTemp).toFixed()}°F
+        High: {convertTofahrenheit(maxTemp).toFixed(0)}°F | Low: {convertTofahrenheit(minTemp).toFixed()}°F
       </p>
       <p>Wind: {convertToMph(wind).toFixed(0)} MPH</p>
       <p>Sunrise: {sunrise}</p>
       <p>Sunset: {sunset}</p>
-    </div>
+      <Button type="primary" onClick={handleDetailsClick}>
+        Details
+      </Button>
+    </Card>
   );
 };
 

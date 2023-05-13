@@ -72,8 +72,10 @@ const ForecastList = ({ zipCode }) => {
                     <p className="m-0">{convertToDate(forecast.date)}</p>
                     <p className="m-0 d-none d-md-flex">{forecast.date}</p>
                   </div>
-                  <p className="ms-4 small-font d-md-none">{forecast.day.condition.text}</p>
-                  
+                  <p className="ms-4 small-font d-md-none">
+                    {forecast.day.condition.text}
+                  </p>
+
                   <img
                     className="header-icon ms-3"
                     src={forecast.day.condition.icon}
@@ -89,20 +91,22 @@ const ForecastList = ({ zipCode }) => {
                 </div>
               }
             >
-              <ForecastCard
-                date={forecast.date}
-                condition={forecast.day.condition}
-                maxTemp={forecast.day.maxtemp_c}
-                minTemp={forecast.day.mintemp_c}
-                wind={forecast.day.maxwind_kph}
-                sunrise={forecast.astro.sunrise}
-                sunset={forecast.astro.sunset}
-              />
+              <div className="forecast-card-container">
+                <ForecastCard
+                  date={forecast.date}
+                  condition={forecast.day.condition}
+                  maxTemp={forecast.day.maxtemp_c}
+                  minTemp={forecast.day.mintemp_c}
+                  wind={forecast.day.maxwind_kph}
+                  sunrise={forecast.astro.sunrise}
+                  sunset={forecast.astro.sunset}
+                />
+              </div>
             </Panel>
           ))}
       </Collapse>
       {forecasts.length && (
-        <div className="load-more">
+        <div className="load-more mt-2">
           <Button onClick={handleLoadMore}>Load More</Button>
         </div>
       )}
