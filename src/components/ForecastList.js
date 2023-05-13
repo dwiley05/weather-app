@@ -21,6 +21,11 @@ const convertToDayOfWeek = (date) => {
   return days[(dayOfWeek + 1) % 7];
 };
 
+const convertToDate = (date) => {
+  const dateArray = date.split("-");
+  return `${dateArray[1]}/${dateArray[2]}`;
+};
+
 const convertToF = (temp) => {
   return (temp * 9) / 5 + 32;
 };
@@ -64,11 +69,13 @@ const ForecastList = ({ zipCode }) => {
                 <div className="custom-panel d-flex flex-row align-items-center">
                   <div className="day-date-wrapper">
                     <p className="m-0">{convertToDayOfWeek(forecast.date)}</p>
-                    <p className="font-bold">{forecast.day.condition.text}</p>
+                    <p className="m-0">{convertToDate(forecast.date)}</p>
                     <p className="m-0 d-none d-md-flex">{forecast.date}</p>
                   </div>
+                  <p className="ms-4 small-font d-md-none">{forecast.day.condition.text}</p>
+                  
                   <img
-                    className="header-icon ms-5"
+                    className="header-icon ms-3"
                     src={forecast.day.condition.icon}
                     alt={forecast.day.condition.text}
                     style={{ width: "64px" }}
