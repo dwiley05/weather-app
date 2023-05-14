@@ -1,3 +1,4 @@
+import React from "react";
 import { Bar } from "react-chartjs-2";
 import {
   LinearScale,
@@ -16,43 +17,35 @@ Chart.register(
   BarElement
 );
 
-const TemperatureChart = (data) => {
-  // const filteredData = data.hourData.filter((item) => {
-  //   const itemDate = new Date(item.time);
-  //   return itemDate.getTime() >= new Date().getTime(); // Filter based on the current time
-  // });
-
+const TemperatureChart = ({ hourData, forecast, date }) => {
   const currentHour = new Date().getHours(); // Get the current hour (0-23)
+  const nextDayForecast = forecast.find((item) => item.date === date);
+  const nextDayHourData = nextDayForecast ? nextDayForecast.hour : [];
+
+  const next12HoursData = [
+    ...hourData.slice(currentHour),
+    ...nextDayHourData.slice(0, 12 - (hourData.length - currentHour)),
+  ];
 
   const chartData = {
-    labels: data.hourData
-      .filter((item) => {
-        const hour = parseInt(item.time.split(' ')[1].split(':')[0]);
-        return hour >= currentHour; // Filter based on the hour
-      })
-      .map((item) => {
-        const hour = parseInt(item.time.split(' ')[1].split(':')[0]);
-        const isAM = hour < 12;
-        const formattedHour = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
-        const period = isAM ? 'AM' : 'PM';
-        return `${formattedHour}:00${period}`; // Format the hour as "X:00AM/PM"
-      }),
+    labels: next12HoursData.map((item) => {
+      const hour = new Date(item.time).getHours();
+      const isAM = hour < 12;
+      const formattedHour = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
+      const period = isAM ? "AM" : "PM";
+      return `${formattedHour}:00 ${period}`; // Format the hour as "X:00 AM/PM"
+    }),
     datasets: [
       {
         label: "Temperature",
-        data: data.hourData
-          .filter((item) => {
-            const hour = parseInt(item.time.split(' ')[1].split(':')[0]);
-            return hour >= currentHour; // Filter based on the hour
-          })
-          .map((item) => item.temp_f),
-        backgroundColor: "rgba(75,192,192,0.4)",
-        borderColor: "rgba(75,192,192,1)",
+        data: next12HoursData.map((item) => item.temp_f),
+        backgroundColor: "rgba(0, 123, 255, 0.4)", // Blue background color with some transparency
+        borderColor: "rgba(0, 123, 255, 1)", // Solid blue border color
         borderWidth: 1,
       },
     ],
   };
-  
+
   const chartOptions = {
     scales: {
       x: {
@@ -68,9 +61,9 @@ const TemperatureChart = (data) => {
       y: {
         beginAtZero: true,
         ticks: {
-          color: "black", // Set the color of the tick labels
+          color: "white", // Set the tick label color to white
           font: {
-            weight: "bold", // Set the font weight of the tick labels
+            weight: "bold",
           },
         },
       },
@@ -84,9 +77,8 @@ const TemperatureChart = (data) => {
       },
     },
   };
-  
 
-  return (<Bar data={chartData} options={chartOptions} />);
+  return <Bar data={chartData} options={chartOptions} />;
 };
 
 export default TemperatureChart;

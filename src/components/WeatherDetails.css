@@ -1,0 +1,10 @@
+.temp-label {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    text-transform: uppercase;
+    color: black;
+    margin-bottom: 1rem;
+}

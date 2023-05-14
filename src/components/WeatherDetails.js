@@ -3,6 +3,7 @@ import { useParams, useLocation, Link } from "react-router-dom";
 import { Card, Descriptions, Typography, Button, Row, Col } from "antd";
 import { getForecast } from "../services/weatherService";
 import TemperatureChart from "./TemperatureChart";
+import "./WeatherDetails.css";
 
 const { Title } = Typography;
 
@@ -10,7 +11,8 @@ const WeatherDetails = () => {
   const { date } = useParams();
   const routeLocation = useLocation();
   const [weatherData, setWeatherData] = useState(null);
-  
+  const [forecast, setForecast] = useState(null);
+
   const convertToDayOfWeek = (date) => {
     const days = [
       "Sunday",
@@ -21,7 +23,7 @@ const WeatherDetails = () => {
       "Friday",
       "Saturday",
     ];
-  
+
     const dayOfWeek = new Date(date).getDay();
     return days[(dayOfWeek + 1) % 7];
   };
@@ -35,8 +37,11 @@ const WeatherDetails = () => {
     const zipCode = getZipCodeFromQuery();
     const fetchData = async () => {
       try {
-        const forecast = await getForecast(zipCode, 30);
-        const weatherForDate = forecast.find((item) => item.date === date);
+        const fetchedForecast = await getForecast(zipCode, 30);
+        setForecast(fetchedForecast);
+        const weatherForDate = fetchedForecast.find(
+          (item) => item.date === date
+        );
         setWeatherData(weatherForDate);
       } catch (error) {
         console.error("Error fetching weather data:", error);
@@ -46,16 +51,17 @@ const WeatherDetails = () => {
     fetchData();
   }, [date, routeLocation]);
 
-  if (!weatherData) {
+  if (!weatherData || !forecast) {
     return <div>Loading...</div>;
   }
-
 
   return (
     <div style={{ marginTop: "2rem" }}>
       <Row justify="center">
         <Col xs={24} sm={22} md={20} lg={18} xl={16}>
-          <Card title={`Weather Details for ${convertToDayOfWeek(date)}  ${date}`}>
+          <Card
+            title={`Weather Details for ${convertToDayOfWeek(date)} ${date}`}
+          >
             <Title level={3}>{weatherData.day.condition.text}</Title>
             <img
               src={weatherData.day.condition.icon}
@@ -97,10 +103,16 @@ const WeatherDetails = () => {
                   {weatherData.day.uv}
                 </Descriptions.Item>
               </Descriptions>
-              <div className="mt-4 d-none d-md-block">Temperature</div>
+              <div className="mt-4 d-none d-md-block temp-label">
+                Temperature
+              </div>
               <Row justify="center" className="d-none d-md-flex mt-3">
                 <Col xs={24} sm={22} md={20} lg={18} xl={16}>
-                  <TemperatureChart hourData={weatherData.hour} />
+                  <TemperatureChart
+                    hourData={weatherData.hour}
+                    forecast={forecast}
+                    date={date}
+                  />
                 </Col>
               </Row>
             </div>
