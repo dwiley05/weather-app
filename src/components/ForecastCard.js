@@ -1,6 +1,8 @@
 import React from "react";
-import { Card, Button } from "antd";
 import { Link } from "react-router-dom";
+import { Card, Typography, Button } from "antd";
+
+const { Text, Paragraph } = Typography;
 
 const ForecastCard = ({
   date,
@@ -21,18 +23,26 @@ const ForecastCard = ({
   };
 
   return (
-    <Card title={date} style={{ width: 300, marginBottom: 16, justifyContent: "center" }}>
-      <p>
-        High: {convertTofahrenheit(maxTemp).toFixed(0)}°F | Low:{" "}
-        {convertTofahrenheit(minTemp).toFixed()}°F
-      </p>
-      <p>Wind: {convertToMph(wind).toFixed(0)} MPH</p>
-      <p>Sunrise: {sunrise}</p>
-      <p>Sunset: {sunset}</p>
-      <Link to={`/weather-details/${date}?zipCode=${zipCode}`}>
-        <Button type="primary">Details</Button>
-      </Link>
-    </Card>
+    <Card title={date} style={{ marginBottom: 16, justifyContent: "center" }}>
+    <Paragraph>
+      <Text strong>High:</Text>{" "}
+      {convertTofahrenheit(maxTemp).toFixed(0)}°F{" | "}
+      <Text strong>Low:</Text>{" "}
+      {convertTofahrenheit(minTemp).toFixed()}°F
+    </Paragraph>
+    <Paragraph>
+      <Text strong>Wind:</Text> {convertToMph(wind).toFixed(0)} MPH
+    </Paragraph>
+    <Paragraph>
+      <Text strong>Sunrise:</Text> {sunrise}
+    </Paragraph>
+    <Paragraph>
+      <Text strong>Sunset:</Text> {sunset}
+    </Paragraph>
+    <Link to={`/weather-details/${date}?zipCode=${zipCode}`}>
+      <Button type="primary">Details</Button>
+    </Link>
+  </Card>
   );
 };
 

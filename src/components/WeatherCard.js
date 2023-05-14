@@ -52,7 +52,7 @@ const WeatherCard = ({ weatherData }) => {
           className="weather-card"
           title={
             <div className="card-title d-flex flex-row">
-              <h3>Today</h3>
+              <h3>Right Now</h3>
               <img
                 src={condition.icon}
                 alt={condition.text}
