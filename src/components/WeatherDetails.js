@@ -68,29 +68,26 @@ const WeatherDetails = () => {
               alt={weatherData.day.condition.text}
             />
             <div className="mt-3">
-              <Descriptions column={{ xs: 1, sm: 2 }} bordered>
+              <Descriptions column={{ xs: 1, sm: 2 }} bordered className="large-values">
                 <Descriptions.Item label="Max Temperature">
-                  {weatherData.day.maxtemp_c}°C / {weatherData.day.maxtemp_f}°F
+                  {weatherData.day.maxtemp_f}°F
                 </Descriptions.Item>
                 <Descriptions.Item label="Min Temperature">
-                  {weatherData.day.mintemp_c}°C / {weatherData.day.mintemp_f}°F
+                  {weatherData.day.mintemp_f}°F
                 </Descriptions.Item>
                 <Descriptions.Item label="Avg Temperature">
-                  {weatherData.day.avgtemp_c}°C / {weatherData.day.avgtemp_f}°F
+                  {weatherData.day.avgtemp_f}°F
                 </Descriptions.Item>
                 <Descriptions.Item label="Wind Speed">
-                  {weatherData.day.maxwind_kph} kph /{" "}
                   {weatherData.day.maxwind_mph} mph
                 </Descriptions.Item>
                 <Descriptions.Item label="Humidity">
                   {weatherData.day.avghumidity}%
                 </Descriptions.Item>
                 <Descriptions.Item label="Precipitation">
-                  {weatherData.day.totalprecip_mm} mm /{" "}
                   {weatherData.day.totalprecip_in} in
                 </Descriptions.Item>
                 <Descriptions.Item label="Visibility">
-                  {weatherData.day.avgvis_km} km /{" "}
                   {weatherData.day.avgvis_miles} miles
                 </Descriptions.Item>
                 <Descriptions.Item label="Chance of Rain">
@@ -116,6 +113,7 @@ const WeatherDetails = () => {
                 </Col>
               </Row>
             </div>
+
             <div className="mt-4">
               <Link to={`/`}>
                 <Button type="primary">Back</Button>
