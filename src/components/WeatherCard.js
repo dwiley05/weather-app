@@ -31,7 +31,7 @@ const WeatherCard = ({ weatherData }) => {
     wind_kph,
     pressure_mb,
     precip_mm,
-    feelslike_c,
+    feelslike_f,
     vis_km,
   } = weatherData.current;
 
@@ -95,7 +95,7 @@ const WeatherCard = ({ weatherData }) => {
             </Row>
             <Row gutter={[16, 8]}>
               <Col span={12}>
-                <Text strong>Feels Like: {feelslike_c}°C</Text>
+                <Text strong>Feels Like: {feelslike_f}°F</Text>
               </Col>
               <Col span={12}>
                 <Text strong>Visibility: {vis_km} km</Text>

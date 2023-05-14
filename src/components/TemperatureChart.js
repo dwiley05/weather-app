@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Bar } from "react-chartjs-2";
 import {
   LinearScale,
@@ -20,6 +20,7 @@ Chart.register(
 );
 
 const TemperatureChart = ({ hourData, forecast, date }) => {
+  const [dataType, setDataType] = useState("temperature"); // Default data type is temperature
   const currentHour = new Date().getHours(); // Get the current hour (0-23)
   const nextDayForecast = forecast.find((item) => item.date === date);
   const nextDayHourData = nextDayForecast ? nextDayForecast.hour : [];
@@ -39,13 +40,19 @@ const TemperatureChart = ({ hourData, forecast, date }) => {
     }),
     datasets: [
       {
-        label: "Temperature",
-        data: next12HoursData.map((item) => item.temp_f),
+        label: dataType === "temperature" ? "Temperature" : "Rain %",
+        data: next12HoursData.map((item) => {
+          return dataType === "temperature" ? item.temp_f : item.chance_of_rain;
+        }),
         backgroundColor: "rgba(0, 123, 255, 0.4)", // Blue background color with some transparency
         borderColor: "rgba(0, 123, 255, 1)", // Solid blue border color
         borderWidth: 1,
       },
     ],
+  };
+
+  const handleDataTypeChange = (event) => {
+    setDataType(event.target.value);
   };
 
   const chartOptions = {
@@ -88,14 +95,14 @@ const TemperatureChart = ({ hourData, forecast, date }) => {
           label: (context) => {
             const dataIndex = context.dataIndex;
             const dataPoint = next12HoursData[dataIndex];
-  
+
             const tooltipItems = [
               `Temp: ${dataPoint.temp_f}°F`,
               `Humidity: ${dataPoint.humidity}%`,
               `Wind: ${dataPoint.wind_mph} mph`,
               `Precipitation: ${dataPoint.precip_in} in`,
             ];
-  
+
             return tooltipItems;
           },
         },
@@ -103,8 +110,16 @@ const TemperatureChart = ({ hourData, forecast, date }) => {
     },
   };
 
-  return <Bar data={chartData} options={chartOptions} />;
+  return (
+    <>
+      <select value={dataType} onChange={handleDataTypeChange}>
+        <option value="temperature">Temperature</option>
+        <option value="rain">Rain %</option>
+        {/* Add other data types as needed */}
+      </select>
+      <Bar data={chartData} options={chartOptions} />
+    </>
+  );
 };
 
 export default TemperatureChart;
-
