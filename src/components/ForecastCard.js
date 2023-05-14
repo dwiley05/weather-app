@@ -12,7 +12,6 @@ const ForecastCard = ({
   sunset,
   zipCode
 }) => {
-
   const convertTofahrenheit = (temp) => {
     return (temp * 9) / 5 + 32;
   };
@@ -22,7 +21,7 @@ const ForecastCard = ({
   };
 
   return (
-    <Card title={date} style={{ width: 300, marginBottom: 16 }}>
+    <Card title={date} style={{ width: 300, marginBottom: 16, justifyContent: "center" }}>
       <p>
         High: {convertTofahrenheit(maxTemp).toFixed(0)}°F | Low:{" "}
         {convertTofahrenheit(minTemp).toFixed()}°F
