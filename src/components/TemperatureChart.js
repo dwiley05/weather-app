@@ -6,6 +6,7 @@ import {
   Chart,
   BarController,
   BarElement,
+  Tooltip,
 } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
 
@@ -14,7 +15,8 @@ Chart.register(
   CategoryScale,
   ChartDataLabels,
   BarController,
-  BarElement
+  BarElement,
+  Tooltip
 );
 
 const TemperatureChart = ({ hourData, forecast, date }) => {
@@ -75,6 +77,29 @@ const TemperatureChart = ({ hourData, forecast, date }) => {
           weight: "bold", // Set the font weight of the data labels
         },
       },
+      tooltip: {
+        enabled: true,
+        callbacks: {
+          title: (context) => {
+            const dataIndex = context[0].dataIndex;
+            const dataPoint = next12HoursData[dataIndex];
+            return new Date(dataPoint.time).toLocaleTimeString(); // Display the time as the tooltip title
+          },
+          label: (context) => {
+            const dataIndex = context.dataIndex;
+            const dataPoint = next12HoursData[dataIndex];
+  
+            const tooltipItems = [
+              `Temp: ${dataPoint.temp_f}°F`,
+              `Humidity: ${dataPoint.humidity}%`,
+              `Wind: ${dataPoint.wind_mph} mph`,
+              `Precipitation: ${dataPoint.precip_in} in`,
+            ];
+  
+            return tooltipItems;
+          },
+        },
+      },
     },
   };
 
@@ -82,3 +107,4 @@ const TemperatureChart = ({ hourData, forecast, date }) => {
 };
 
 export default TemperatureChart;
+
