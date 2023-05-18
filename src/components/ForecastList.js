@@ -21,10 +21,11 @@ const convertToDayOfWeek = (date) => {
   return days[(dayOfWeek + 1) % 7];
 };
 
-const convertToDate = (date) => {
-  const dateArray = date.split("-");
-  return `${dateArray[1]}/${dateArray[2]}`;
-};
+const convertToDayMonth = (date) => {
+  const day = new Date(date).getDate();
+  const month = new Date(date).getMonth() + 1;
+  return `${month}/${day}`;
+}
 
 const convertToF = (temp) => {
   return (temp * 9) / 5 + 32;
@@ -68,9 +69,8 @@ const ForecastList = ({ zipCode }) => {
               header={
                 <div className="custom-panel d-flex flex-row align-items-center">
                   <div className="day-date-wrapper">
-                    <p className="m-0">{convertToDayOfWeek(forecast.date)}</p>
-                    <p className="m-0">{convertToDate(forecast.date)}</p>
-                    <p className="m-0 d-none d-md-flex">{forecast.date}</p>
+                    <p className="m-0 large-text">{convertToDayOfWeek(forecast.date)}</p>
+                    <p className="m-0 d-none d-md-flex center-text">{convertToDayMonth(forecast.date)}</p>
                   </div>
                   <p className="ms-4 small-font d-md-none">
                     {forecast.day.condition.text}

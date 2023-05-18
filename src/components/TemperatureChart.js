@@ -31,17 +31,24 @@ const TemperatureChart = ({ hourData, forecast, date }) => {
   ];
 
   const chartData = {
-    labels: next12HoursData.map((item) => {
+    labels: next12HoursData.slice(0, 12).map((item, index) => {
       const hour = new Date(item.time).getHours();
       const isAM = hour < 12;
       const formattedHour = hour === 0 ? 12 : hour > 12 ? hour - 12 : hour;
       const period = isAM ? "AM" : "PM";
-      return `${formattedHour}:00 ${period}`; // Format the hour as "X:00 AM/PM"
+      const day =
+        index === 0
+          ? ""
+          : new Date(item.time).getDate() !==
+            new Date(next12HoursData[index - 1].time).getDate()
+          ? ` (${new Date(item.time).toLocaleDateString()})`
+          : "";
+      return `${formattedHour}:00 ${period}${day}`; // Format the hour as "X:00 AM/PM" and include the date if it changes
     }),
     datasets: [
       {
         label: dataType === "temperature" ? "Temperature" : "Rain %",
-        data: next12HoursData.map((item) => {
+        data: next12HoursData.slice(0, 12).map((item) => {
           return dataType === "temperature" ? item.temp_f : item.chance_of_rain;
         }),
         backgroundColor: "rgba(0, 123, 255, 0.4)", // Blue background color with some transparency
